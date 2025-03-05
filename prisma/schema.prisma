@@ -1,0 +1,39 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id            Int         @id @default(autoincrement())
+    name          String?
+    email         String      @unique
+    password_hash String
+    cvs           CV[]
+    interviews    Interview[]
+    createdAT     DateTime    @default(now())
+    updatedAT     DateTime    @updatedAt
+}
+
+model CV {
+    id          Int      @id @default(autoincrement())
+    user        User     @relation(fields: [userId], references: [id])
+    userId      Int
+    filePath    String
+    parsed_Data Json
+    crearatedAT DateTime @default(now())
+    updatedAT   DateTime @updatedAt
+}
+
+model Interview {
+    id        Int      @id @default(autoincrement())
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    questions Json
+    responses Json
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

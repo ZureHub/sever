@@ -1,6 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import authRoutes from './routes/authRoutes';
+import userRoutes from './routes/userRoutes';
+import cvRoutes from './routes/cvvRoutes';
+import interviewRoutes from './routes/interviewRoutes';
+
 dotenv.config();
 
 
@@ -25,9 +30,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
         message: err.message
     });
 });
-
-
-
 
 
 const PORT = process.env.PORT || 3000;

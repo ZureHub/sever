@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import prisma from '../services/prismaService';
+import prisma from '../services/prismaService.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';

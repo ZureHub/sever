@@ -31,23 +31,22 @@ async function analyzeCVWithLLM(cvText) {
     }
 }
 /**
- * Calls the Azure OpenAI API with the given prompt
+ * Calls the OpenAI API with the given prompt
  * @param prompt The prompt to send to the LLM
  * @returns LLM response
  */
 async function callLLMAPI(prompt) {
     try {
-        // Azure OpenAI specific variables
-        const AZURE_OPENAI_KEY = process.env.AZURE_OPENAI_KEY;
-        const AZURE_OPENAI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
-        const AZURE_OPENAI_DEPLOYMENT = process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4';
-        const API_VERSION = process.env.AZURE_OPENAI_API_VERSION || '2023-05-15';
-        if (!AZURE_OPENAI_KEY || !AZURE_OPENAI_ENDPOINT) {
-            throw new Error('Azure OpenAI key or endpoint is not configured');
+        // OpenAI specific variables
+        const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+        const MODEL = process.env.OPENAI_MODEL || 'gpt-4';
+        if (!OPENAI_API_KEY) {
+            throw new Error('OpenAI API key is not configured');
         }
-        // Construct Azure OpenAI API URL
-        const API_URL = `${AZURE_OPENAI_ENDPOINT}/openai/deployments/${AZURE_OPENAI_DEPLOYMENT}/chat/completions?api-version=${API_VERSION}`;
+        // Standard OpenAI API URL
+        const API_URL = 'https://api.openai.com/v1/chat/completions';
         const response = await axios.post(API_URL, {
+            model: MODEL,
             messages: [
                 { role: 'system', content: 'You are a professional CV analyst and career advisor.' },
                 { role: 'user', content: prompt }
@@ -57,7 +56,7 @@ async function callLLMAPI(prompt) {
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'api-key': AZURE_OPENAI_KEY
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
             },
             timeout: 30000
         });
@@ -66,8 +65,12 @@ async function callLLMAPI(prompt) {
         };
     }
     catch (error) {
-        console.error('Error calling Azure OpenAI API:', error);
-        throw new Error('Failed to call Azure OpenAI API');
+        console.error('Error calling OpenAI API:', error);
+        if (axios.isAxiosError(error) && error.response) {
+            console.error('Response data:', error.response.data);
+            console.error('Response status:', error.response.status);
+        }
+        throw new Error('Failed to call OpenAI API');
     }
 }
 /**
@@ -76,6 +79,7 @@ async function callLLMAPI(prompt) {
  * @returns HTML representation of insights
  */
 function formatInsightsToHTML(insights) {
+    // Unchanged - this function remains the same
     return `
     <div class="cv-insights-container">
       <div class="section">
@@ -137,7 +141,7 @@ function formatInsightsToHTML(insights) {
  * @returns DataFrame for visualization
  */
 function createSkillsVisualization(insights) {
-    // Create a simple DataFrame for skills visualization
+    // Unchanged - this function remains the same
     const skills = insights.skills;
     const confidenceScores = skills.map(() => Math.floor(Math.random() * 40) + 60); // Generate random scores between 60-100
     return new DataFrame({

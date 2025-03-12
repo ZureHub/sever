@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import prisma from '../services/prismaService';
+import prisma from '../services/prismaService.js';
 
 class InterviewController {
   async createInterview(req: Request, res: Response) {

@@ -1,5 +1,5 @@
-import PrismaService from '../services/prismaService';
-import { hashPassword } from '../utils';
+import PrismaService from '../services/prismaService.js';
+import { hashPassword } from '../utils/index.js';
 class UserController {
     async getAllUsers(req, res) {
         try {

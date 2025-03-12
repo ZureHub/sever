@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import cvController, { upload } from '../controllers/cvController';
-import { authMiddleware } from '../middleware/auth';
+import cvController, { upload } from '../controllers/cvController.js';
+import { authMiddleware } from '../middleware/auth.js';
 const router = Router();
 // All routes require authentication
 router.use(authMiddleware);

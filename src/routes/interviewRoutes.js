@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import interviewController from '../controllers/interviewController';
-import { authMiddleware } from '../middleware/auth';
+import interviewController from '../controllers/interviewController.js';
+import { authMiddleware } from '../middleware/auth.js';
 const router = Router();
 // All routes require authentication
 router.use(authMiddleware);

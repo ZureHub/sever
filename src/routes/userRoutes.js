@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import userController from '../controllers/userController';
-import { authMiddleware } from '../middleware/auth';
+import userController from '../controllers/userController.js';
+import { authMiddleware } from '../middleware/auth.js';
 const router = Router();
 // Protected routes (require authentication)
 router.get('/', authMiddleware, userController.getAllUsers);

@@ -1,4 +1,4 @@
-import prisma from '../services/prismaService';
+import prisma from '../services/prismaService.js';
 class InterviewController {
     async createInterview(req, res) {
         const userId = req.user?.userId; // From auth middleware

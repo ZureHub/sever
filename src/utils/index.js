@@ -8,5 +8,9 @@ export const comparePassword = async (password, hash) => {
     return bcrypt.compare(password, hash);
 };
 export const generateToken = (userId, email) => {
-    return jwt.sign({ userId, email }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+        throw new Error('JWT_SECRET is not defined in environment variables');
+    }
+    return jwt.sign({ userId, email }, jwtSecret, { expiresIn: '24h' });
 };
